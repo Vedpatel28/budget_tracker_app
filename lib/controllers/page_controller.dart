@@ -7,7 +7,7 @@ class isPageController extends GetxController {
   RxInt liveIndex = 0.obs;
   PageController pageController = PageController();
 
-  get getIndex {
+  int get getIndex {
     return liveIndex.value;
   }
 
