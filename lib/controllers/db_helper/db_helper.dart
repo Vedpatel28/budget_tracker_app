@@ -48,19 +48,34 @@ class dbHelper {
 
         // Category Creating Query
         db.execute(
-            ' CREATE TABLE $categoryTable( $ctId INTEGER , $ctTitle TEXT , $ctImage BLOB )');
+            ' CREATE TABLE $categoryTable( $ctId INTEGER AUTOINCREMENT, $ctTitle TEXT , $ctImage BLOB )');
       },
       version: 1,
     );
   }
 
-  setBalance({required int amount}) {
+  setBalance({
+    required int amount,
+  }) {
     database.rawUpdate(
         ' UPDATE TABLE $balanceTable SET $blAmo = $amount WHERE $blId = 101 ');
   }
 
-  InsertInTransaction( String remarks , String category , String date , {required int Amount,required String type} ) {
+  InsertInTransaction(
+    String remarks,
+    String category,
+    String date, {
+    required int Amount,
+    required String type,
+  }) {
     database.rawInsert(
         'INSERT INTO $transactionTable( $trId , $trRem , $trAmo , $trType , $trCat , $trDate ) VALUES( "101" , " $remarks " , " $Amount " , " $type " , " $category " , " $date " ) ');
+  }
+
+  InsertInCategory(
+    String title,
+    String image,
+  ) {
+    database.rawInsert('INSERT INTO $categoryTable( "101" , " $title " , " $image " )');
   }
 }
