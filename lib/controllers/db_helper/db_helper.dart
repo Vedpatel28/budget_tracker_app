@@ -1,6 +1,5 @@
-import 'dart:developer';
+// ignore_for_file: camel_case_types, non_constant_identifier_names
 
-import 'package:budget_tracker_app/controllers/db_helper/db_modal.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -11,42 +10,57 @@ class dbHelper {
 
   late Database database;
 
-  String tableName = "Student";
-  String idCol = "Id";
-  String nameCol = "Name";
+  String balanceTable = "Balance";
+  String transactionTable = "Transaction";
+  String categoryTable = "Category";
 
-  init() async {
-    String dbpath = await getDatabasesPath();
-    String dbName = "budget.db";
+  String blId = "Id";
+  String blAmo = "Amount";
 
-    String path = join(dbpath, dbName);
+  String trId = "Id";
+  String trRem = "Remark";
+  String trType = "Type";
+  String trCat = "Category";
+  String trAmo = "Amount";
+  String trDate = "Date";
+
+  String ctId = "Id";
+  String ctTitle = "Title";
+  String ctImage = "Image";
+
+  initDB() async {
+    String dbPath = await getDatabasesPath();
+    String dbName = "BT.db";
+
+    String path = join(dbPath, dbName);
 
     database = await openDatabase(
       path,
-      version: 1,
       onCreate: (db, version) {
-        db
-            .execute(
-                "CREATE TABLE $tableName ( $idCol INTEGER PRIMARY KEY AUTOINCREMENT , $nameCol TEXT NOT NULL)")
-            .then((value) {
-          log("Created Table");
-        }).onError((error, stackTrace) {
-          log("Error : $error");
-        });
+        // Balance Creating Query
+        db.execute(
+            ' CREATE TABLE $balanceTable( $blId INTEGER , $blAmo INTEGER ) ');
+        db.rawInsert("INSERT INTO $balanceTable VALUES (101,0)");
+
+        // Transaction Creating Query
+        db.execute(
+            'CREATE TABLE $transactionTable( $trId INTEGER AUTOINCREMENT, $trRem TEXT , $trAmo INTEGER NOT NULL, $trType TEXT CHECK($trType IN("INCOME","EXPANSE")), $trCat TEXT , $trDate TEXT )');
+
+        // Category Creating Query
+        db.execute(
+            ' CREATE TABLE $categoryTable( $ctId INTEGER , $ctTitle TEXT , $ctImage BLOB )');
       },
+      version: 1,
     );
   }
-  Future<int> insertData({required String name}) async {
-    return await database
-        .rawInsert('INSERT INTO $tableName($nameCol) VALUES("$name")');
+
+  setBalance({required int amount}) {
+    database.rawUpdate(
+        ' UPDATE TABLE $balanceTable SET $blAmo = $amount WHERE $blId = 101 ');
   }
 
-  Future<List<student>?> getAllRecord() async {
-    List allData = await database.rawQuery('SELECT * FROM $tableName');
-
-    List<student> allStudent =
-    allData.map((e) => student.fromMap(data: e)).toList();
-
-    return allStudent;
+  InsertInTransaction( String remarks , String category , String date , {required int Amount,required String type} ) {
+    database.rawInsert(
+        'INSERT INTO $transactionTable( $trId , $trRem , $trAmo , $trType , $trCat , $trDate ) VALUES( "101" , " $remarks " , " $Amount " , " $type " , " $category " , " $date " ) ');
   }
 }
