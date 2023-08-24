@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, camel_case_types
 
 import 'package:budget_tracker_app/controllers/page_controller.dart';
+import 'package:budget_tracker_app/views/componets/category_pageview.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,12 +22,7 @@ class Home_page extends StatelessWidget {
         },
         controller: controller.pageController,
         children: [
-          Container(
-            color: Colors.blue,
-            child: Column(
-              children: [],
-            ),
-          ),
+          category_pageView(),
           Container(
             color: Colors.cyanAccent,
           ),
