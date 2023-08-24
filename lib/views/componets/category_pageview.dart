@@ -1,5 +1,6 @@
 // ignore_for_file: camel_case_types
 
+import 'package:budget_tracker_app/utils/category_images_utils.dart';
 import 'package:flutter/material.dart';
 
 class category_pageView extends StatelessWidget {
@@ -12,7 +13,45 @@ class category_pageView extends StatelessWidget {
       child: Column(
         children: [
           Row(
-            children: [],
+            children: [
+              Container(
+                width: 370,
+                height: 300,
+                child: GridView.builder(
+                  itemCount: allCategoryImages.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 1,
+                    childAspectRatio: 2/1,
+                  ),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Column(
+                      children: [
+                        Container(
+                          height: 100,
+                          width: 120,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(
+                                allCategoryImages[index]['image'],
+                              ),
+                              fit: BoxFit.scaleDown,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          "${allCategoryImages[index]['name']}",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              )
+            ],
           ),
         ],
       ),
