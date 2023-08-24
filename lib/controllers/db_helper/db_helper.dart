@@ -1,5 +1,6 @@
 // ignore_for_file: camel_case_types, non_constant_identifier_names
 
+import 'package:budget_tracker_app/modals/Category_modal.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -69,13 +70,33 @@ class dbHelper {
     required String type,
   }) {
     database.rawInsert(
-        'INSERT INTO $transactionTable( $trId , $trRem , $trAmo , $trType , $trCat , $trDate ) VALUES( "101" , " $remarks " , " $Amount " , " $type " , " $category " , " $date " ) ');
+      'INSERT INTO $transactionTable( $trId , $trRem , $trAmo , $trType , $trCat , $trDate ) VALUES( "101" , " $remarks " , " $Amount " , " $type " , " $category " , " $date " ) ',
+    );
   }
 
   InsertInCategory(
     String title,
     String image,
-  ) {
-    database.rawInsert('INSERT INTO $categoryTable( "101" , " $title " , " $image " )');
+  ) async {
+    String query =
+        "INSERT INTO $categoryTable($ctTitle,$ctImage) VALUES( ? , ? )";
+
+    List getArgs = [title, image];
+
+    int response = await database.rawInsert(query, getArgs);
+
+    return response;
+  }
+
+  Future<List<CategoryModal>> DisplayCategory() async {
+    List response = await database.rawQuery("SELECT * FROM $categoryTable");
+
+    List<CategoryModal> allCategory = response
+        .map(
+          (e) => CategoryModal.fromMap(data: e),
+        )
+        .toList();
+
+    return allCategory;
   }
 }
