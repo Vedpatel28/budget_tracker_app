@@ -15,7 +15,8 @@ class Home_page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(backgroundColor: Colors.transparent),
       body: PageView(
         onPageChanged: (index) {
           controller.changeIndex(index: index);
