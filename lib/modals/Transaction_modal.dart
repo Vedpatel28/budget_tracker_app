@@ -4,6 +4,7 @@ class TransactionModal {
   late String category;
   late int amount;
   late String date;
+  late String time;
 
   TransactionModal(
     this.remark,
@@ -11,6 +12,7 @@ class TransactionModal {
     this.category,
     this.amount,
     this.date,
+    this.time,
   );
 
   factory TransactionModal.fromMap({required Map data}) {
@@ -20,6 +22,7 @@ class TransactionModal {
       data["category"],
       data["amount"],
       data["date"],
+      data["time"],
     );
   }
 }

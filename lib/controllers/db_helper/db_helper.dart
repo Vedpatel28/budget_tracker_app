@@ -1,6 +1,7 @@
 // ignore_for_file: camel_case_types, non_constant_identifier_names
 
 import 'package:budget_tracker_app/modals/Category_modal.dart';
+import 'package:budget_tracker_app/modals/Transaction_modal.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -11,9 +12,9 @@ class dbHelper {
 
   late Database database;
 
-  String balanceTable = "Balance";
-  String transactionTable = "Transaction";
-  String categoryTable = "Category";
+  String balanceTable = "BalanceTable";
+  String transactionTable = "TransactionTable";
+  String categoryTable = "CategoryTable";
 
   String blId = "Id";
   String blAmo = "Amount";
@@ -24,6 +25,7 @@ class dbHelper {
   String trCat = "Category";
   String trAmo = "Amount";
   String trDate = "Date";
+  String trTime = "Time";
 
   String ctId = "Id";
   String ctTitle = "Title";
@@ -31,7 +33,7 @@ class dbHelper {
 
   initDB() async {
     String dbPath = await getDatabasesPath();
-    String dbName = "BT.db";
+    String dbName = "BTT.db";
 
     String path = join(dbPath, dbName);
 
@@ -45,7 +47,7 @@ class dbHelper {
 
         // Transaction Creating Query
         db.execute(
-            'CREATE TABLE $transactionTable( $trId INTEGER AUTOINCREMENT, $trRem TEXT , $trAmo INTEGER NOT NULL, $trType TEXT CHECK($trType IN("INCOME","EXPANSE")), $trCat TEXT , $trDate TEXT )');
+            'CREATE TABLE $transactionTable( $trId INTEGER AUTOINCREMENT, $trRem TEXT , $trAmo INTEGER NOT NULL, $trType TEXT CHECK($trType IN("INCOME","EXPANSE")), $trCat TEXT , $trDate TEXT ,$trTime TEXT)');
 
         // Category Creating Query
         db.execute(
@@ -62,16 +64,13 @@ class dbHelper {
         ' UPDATE TABLE $balanceTable SET $blAmo = $amount WHERE $blId = 101 ');
   }
 
-  InsertInTransaction(
-    String remarks,
-    String category,
-    String date, {
-    required int Amount,
-    required String type,
-  }) {
-    database.rawInsert(
-      'INSERT INTO $transactionTable( $trId , $trRem , $trAmo , $trType , $trCat , $trDate ) VALUES( "101" , " $remarks " , " $Amount " , " $type " , " $category " , " $date " ) ',
-    );
+  InsertInTransaction({required TransactionModal transaction}) {
+
+    String query = "INSERT INTO $transactionTable( $trRem , $trAmo , $trType , $trCat , $trDate , $trTime) VALUES( ? , ? , ? , ? , ? , ? ) ";
+
+    List getArgs = [transaction.remark,transaction.amount,transaction.type,transaction.category,transaction.date,transaction.time];
+
+    database.rawInsert(query, getArgs);
   }
 
   InsertInCategory(

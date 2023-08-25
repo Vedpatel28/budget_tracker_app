@@ -31,9 +31,6 @@ class Home_page extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {},
-      ),
       bottomNavigationBar: Obx(
         () => BottomNavigationBar(
           onTap: (index) {
@@ -41,10 +38,11 @@ class Home_page extends StatelessWidget {
           },
           currentIndex: controller.getIndex,
           items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: "home"),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.settings), label: "setting"),
-            BottomNavigationBarItem(icon: Icon(Icons.call), label: "call"),
+                icon: Icon(Icons.account_balance_wallet), label: "Wallet"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.settings), label: "Settings"),
           ],
         ),
       ),
