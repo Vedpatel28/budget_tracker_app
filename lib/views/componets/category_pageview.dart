@@ -1,6 +1,8 @@
 // ignore_for_file: camel_case_types, must_be_immutable
 
 import 'package:budget_tracker_app/controllers/category_controller.dart';
+import 'package:budget_tracker_app/utils/category_images_utils.dart';
+import 'package:budget_tracker_app/utils/gif_images_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,6 +17,8 @@ class category_pageView extends StatefulWidget {
 
 class _category_pageViewState extends State<category_pageView>
     with TickerProviderStateMixin {
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   CategoryController categoryController = Get.put(
     CategoryController(),
   );
@@ -33,12 +37,12 @@ class _category_pageViewState extends State<category_pageView>
 
     controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 1200),
     )..forward();
 
     centerController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 600),
+      duration: const Duration(milliseconds: 1000),
     )..forward();
 
     stopPosition = Tween(
@@ -48,7 +52,7 @@ class _category_pageViewState extends State<category_pageView>
 
     position = Tween<Alignment>(
       begin: const Alignment(-3, -2),
-      end: const Alignment(-2, -1.2),
+      end: const Alignment(-1.8, -1.1),
     ).animate(
       CurvedAnimation(
         parent: controller,
@@ -56,10 +60,13 @@ class _category_pageViewState extends State<category_pageView>
       ),
     );
 
-    opacity = Tween<double>(begin: 0.0, end: 1.0).animate(
+    opacity = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(
       CurvedAnimation(
         parent: controller,
-        curve: const Interval(0.4, 1),
+        curve: const Interval(0.5, 1),
       ),
     );
   }
@@ -81,21 +88,25 @@ class _category_pageViewState extends State<category_pageView>
                     curve: Curves.easeInOutQuad,
                     duration: const Duration(seconds: 1),
                     decoration: BoxDecoration(
-                      color: Colors.green.shade200,
+                      // color: const Color(0xFF414C6B),
+                      image: DecorationImage(
+                        image: AssetImage("${gifImages}wlet.gif"),
+                        fit: BoxFit.contain,
+                      ),
                       shape: BoxShape.circle,
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black12,
-                          offset: Offset(0.6, 1),
-                          spreadRadius: 4,
-                          blurRadius: 8,
-                        ),
-                      ],
+                      // boxShadow: const [
+                      //   BoxShadow(
+                      //     color: Color(0xFF414C6B),
+                      //     offset: Offset(0.6, 1),
+                      //     spreadRadius: 4,
+                      //     blurRadius: 8,
+                      //   ),
+                      // ],
                     ),
                   ),
                 ),
                 Transform.translate(
-                  offset: const Offset(260, 700),
+                  offset: const Offset(250, 670),
                   child: FadeTransition(
                     opacity: opacity,
                     child: AnimatedContainer(
@@ -104,16 +115,20 @@ class _category_pageViewState extends State<category_pageView>
                       curve: Curves.easeInOutQuad,
                       duration: const Duration(seconds: 1),
                       decoration: BoxDecoration(
-                        color: Colors.green.shade200,
+                        // color: const Color(0xFFE4979E),
+                        image: DecorationImage(
+                          image: AssetImage("${gifImages}budgetfriendly.gif"),
+                          fit: BoxFit.contain,
+                        ),
                         shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.green.shade100,
-                            offset: const Offset(0.6, 1),
-                            spreadRadius: 4,
-                            blurRadius: 8,
-                          ),
-                        ],
+                        // boxShadow: const [
+                        //   BoxShadow(
+                        //     color: Color(0xFFE4979E),
+                        //     offset: Offset(0.6, 1),
+                        //     spreadRadius: 4,
+                        //     blurRadius: 8,
+                        //   ),
+                        // ],
                       ),
                     ),
                   ),
@@ -121,6 +136,7 @@ class _category_pageViewState extends State<category_pageView>
                 AlignTransition(
                   alignment: stopPosition,
                   child: Form(
+                    key: formKey,
                     child: SizedBox(
                       height: 720,
                       child: ListView(
@@ -151,7 +167,7 @@ class _category_pageViewState extends State<category_pageView>
                             "Type",
                             style: GoogleFonts.modernAntiqua(fontSize: 18),
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 10),
                           Obx(
                             () => CupertinoSlidingSegmentedControl(
                               groupValue: categoryController.currentType.value,
@@ -183,6 +199,102 @@ class _category_pageViewState extends State<category_pageView>
                               },
                               onValueChanged: (value) {
                                 categoryController.changType(type: value!);
+                              },
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          Container(
+                            decoration: const BoxDecoration(
+                              color: Color(0xFF414C6B),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(20),
+                              ),
+                              // boxShadow: [
+                              //   BoxShadow(
+                              //       color: Colors.green.shade200,
+                              //       blurRadius: 4,
+                              //       spreadRadius: 1,
+                              //       offset: const Offset(0.1, 0.6),
+                              //       blurStyle: BlurStyle.solid),
+                              // ],
+                            ),
+                            alignment: Alignment.center,
+                            child: GestureDetector(
+                              child: Row(
+                                children: [
+                                  const Spacer(flex: 2),
+                                  IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(
+                                      Icons.category_outlined,
+                                      size: 30,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    "Select Category",
+                                    style: GoogleFonts.modernAntiqua(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  const Spacer(flex: 2),
+                                ],
+                              ),
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    content: SizedBox(
+                                      height: 600,
+                                      width: 400,
+                                      child: GridView.builder(
+                                        itemCount: allCategoryImages.length,
+                                        gridDelegate:
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          childAspectRatio: 1 / 1,
+                                          mainAxisSpacing: 5,
+                                          crossAxisSpacing: 5,
+                                        ),
+                                        itemBuilder: (context, index) =>
+                                            GestureDetector(
+                                          onTap: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Card(
+                                            child: Column(
+                                              children: [
+                                                Expanded(
+                                                  flex: 4,
+                                                  child: Container(
+                                                    height: 300,
+                                                    width: 120,
+                                                    decoration: BoxDecoration(
+                                                      image: DecorationImage(
+                                                        image: AssetImage(
+                                                          allCategoryImages[
+                                                              index]["image"],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                    child: Text(
+                                                  allCategoryImages[index]
+                                                      ['name'],
+                                                )),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
                               },
                             ),
                           ),
