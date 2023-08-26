@@ -39,6 +39,7 @@ dependencies:
   glassmorphism:
   google_fonts:
   path:
+  intl:
   sqflite: 
 
 dev_dependencies:
