@@ -1,7 +1,10 @@
 // ignore_for_file: camel_case_types, must_be_immutable
 
+import 'dart:developer';
+
 import 'package:budget_tracker_app/controllers/category_controller.dart';
 import 'package:budget_tracker_app/controllers/date_time_controller.dart';
+import 'package:budget_tracker_app/modals/Transaction_modal.dart';
 import 'package:budget_tracker_app/utils/category_images_utils.dart';
 import 'package:budget_tracker_app/utils/gif_images_utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,7 +13,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class category_pageView extends StatefulWidget {
-  category_pageView({super.key});
+  const category_pageView({super.key});
 
   @override
   State<category_pageView> createState() => _category_pageViewState();
@@ -20,11 +23,23 @@ class _category_pageViewState extends State<category_pageView>
     with TickerProviderStateMixin {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+  TextEditingController datePicker = TextEditingController();
+  TextEditingController timePicker = TextEditingController();
+
   DateTimeController dateTimeController = Get.put(DateTimeController());
+
+  TransactionModal _transactionModal = TransactionModal.init();
 
   CategoryController categoryController = Get.put(
     CategoryController(),
   );
+
+  String? _title;
+  String? _amount;
+  int? _category;
+  String? _type;
+  String? _date;
+  String? _time;
 
   late AnimationController controller;
   late AnimationController centerController;
@@ -37,6 +52,8 @@ class _category_pageViewState extends State<category_pageView>
   @override
   void initState() {
     super.initState();
+
+    dateTimeController.init();
 
     controller = AnimationController(
       vsync: this,
@@ -123,6 +140,7 @@ class _category_pageViewState extends State<category_pageView>
               AlignTransition(
                 alignment: stopPosition,
                 child: Form(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   key: formKey,
                   child: SizedBox(
                     height: 720,
@@ -132,8 +150,20 @@ class _category_pageViewState extends State<category_pageView>
                           "Remark",
                           style: GoogleFonts.modernAntiqua(fontSize: 18),
                         ),
-                        const TextField(
-                          decoration: InputDecoration(
+                        TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          textInputAction: TextInputAction.next,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Enter Title";
+                            } else {
+                              return null;
+                            }
+                          },
+                          onSaved: (newValue) {
+                            _title = newValue!;
+                          },
+                          decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: "Title",
                           ),
@@ -143,8 +173,22 @@ class _category_pageViewState extends State<category_pageView>
                           "Amount",
                           style: GoogleFonts.modernAntiqua(fontSize: 18),
                         ),
-                        const TextField(
-                          decoration: InputDecoration(
+                        TextFormField(
+                          initialValue: _amount,
+                          textInputAction: TextInputAction.next,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          keyboardType: TextInputType.number,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Enter Amount";
+                            } else {
+                              return null;
+                            }
+                          },
+                          onSaved: (newValue) {
+                            _amount = newValue;
+                          },
+                          decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: "Amount",
                           ),
@@ -185,7 +229,8 @@ class _category_pageViewState extends State<category_pageView>
                               ),
                             },
                             onValueChanged: (value) {
-                              categoryController.changType(type: value!);
+                              _type = value!;
+                              categoryController.changType(type: value);
                             },
                           ),
                         ),
@@ -194,56 +239,93 @@ class _category_pageViewState extends State<category_pageView>
                           "Date & Time",
                           style: GoogleFonts.modernAntiqua(fontSize: 18),
                         ),
-                        Column(
+                        const SizedBox(height: 20),
+                        Row(
                           children: [
-                            Row(
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    showDatePicker(
-                                      context: context,
-                                      initialDate: dateTimeController.dateTime,
-                                      firstDate: DateTime(2000),
-                                      lastDate: DateTime(2030),
+                            SizedBox(
+                              width: 370,
+                              child: TextField(
+                                onSubmitted: (value) {
+                                  _date = value;
+                                },
+                                controller: dateTimeController.datePicker,
+                                onTap: () async {
+                                  dateTimeController.date =
+                                      await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(2000),
+                                    lastDate: DateTime(2025),
+                                  );
+
+                                  if (dateTimeController.date != null) {
+                                    dateTimeController.setDate();
+
+                                    log(" Date : ${dateTimeController.date} ");
+                                  } else {
+                                    Get.snackbar(
+                                      "Error",
+                                      "Can't Picked Date",
+                                      overlayColor: Colors.red,
                                     );
-                                  },
-                                  icon: const Icon(
-                                    Icons.date_range,
+                                  }
+                                },
+                                readOnly: true,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: "Pick a Date",
+                                  icon: Icon(
+                                    Icons.calendar_month,
                                   ),
                                 ),
-                                Text(
-                                  "Pick a Date",
-                                  style: GoogleFonts.modernAntiqua(
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
-                            Row(
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    showTimePicker(
-                                      context: context,
-                                      initialTime: dateTimeController.time,
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: 370,
+                              child: TextField(
+                                onSubmitted: (value) {
+                                  _time = value;
+                                },
+                                controller: dateTimeController.timePicker,
+                                onTap: () async {
+                                  dateTimeController.time =
+                                      await showTimePicker(
+                                    context: context,
+                                    initialTime: TimeOfDay.now(),
+                                  );
+
+                                  if (dateTimeController.time != null) {
+                                    dateTimeController.setTime();
+                                    log(" Time : ${dateTimeController.time} ");
+                                  } else {
+                                    Get.snackbar(
+                                      "Error",
+                                      "Can't Picked Time",
+                                      overlayColor: Colors.red,
                                     );
-                                  },
+                                  }
+                                },
+                                readOnly: true,
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: "Pick a Time",
+                                  hintText: "${dateTimeController.time}",
                                   icon: const Icon(
-                                    Icons.access_time_rounded,
+                                    Icons.watch_later_outlined,
                                   ),
                                 ),
-                                Text(
-                                  "Pick a Time",
-                                  style: GoogleFonts.modernAntiqua(
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 10),
                         Container(
+                          height: 50,
                           decoration: const BoxDecoration(
                             color: Color(0xFF414C6B),
                             borderRadius: BorderRadius.all(
@@ -255,13 +337,10 @@ class _category_pageViewState extends State<category_pageView>
                             child: Row(
                               children: [
                                 const Spacer(flex: 2),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.category_outlined,
-                                    size: 30,
-                                    color: Colors.white,
-                                  ),
+                                const Icon(
+                                  Icons.category_outlined,
+                                  size: 30,
+                                  color: Colors.white,
                                 ),
                                 const Spacer(),
                                 Text(
@@ -294,6 +373,7 @@ class _category_pageViewState extends State<category_pageView>
                                       itemBuilder: (context, index) =>
                                           GestureDetector(
                                         onTap: () {
+                                          _category = index;
                                           Navigator.of(context).pop();
                                         },
                                         child: Card(
@@ -329,6 +409,28 @@ class _category_pageViewState extends State<category_pageView>
                                 ),
                               );
                             },
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        ElevatedButton(
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              formKey.currentState!.save();
+                              _transactionModal.remark = _title!;
+                              _transactionModal.amount = _amount!;
+                              _transactionModal.type = _type!;
+                              _transactionModal.date = _date!;
+                              _transactionModal.category = _category! as String;
+                              _transactionModal.time = _time!;
+                            }
+                          },
+                          child: Text(
+                            "Transaction",
+                            style: GoogleFonts.modernAntiqua(
+                              fontWeight: FontWeight.w700,
+                              color: const Color(0xFF414C6B),
+                              fontSize: 20,
+                            ),
                           ),
                         ),
                       ],

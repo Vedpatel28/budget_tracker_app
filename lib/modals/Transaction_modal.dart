@@ -1,8 +1,10 @@
+import 'dart:developer';
+
 class TransactionModal {
   late String remark;
   late String type;
   late String category;
-  late int amount;
+  late String amount;
   late String date;
   late String time;
 
@@ -15,14 +17,18 @@ class TransactionModal {
     this.time,
   );
 
+  TransactionModal.init() {
+    log("Empty transaction initialized...");
+  }
+
   factory TransactionModal.fromMap({required Map data}) {
     return TransactionModal(
-      data["remark"],
-      data["type"],
-      data["category"],
-      data["amount"],
-      data["date"],
-      data["time"],
+      data["Remark"],
+      data["Type"],
+      data["Category"],
+      data["Amount"],
+      data["Date"],
+      data["Time"],
     );
   }
 }
