@@ -1,6 +1,7 @@
 // ignore_for_file: camel_case_types, must_be_immutable
 
 import 'package:budget_tracker_app/controllers/category_controller.dart';
+import 'package:budget_tracker_app/controllers/date_time_controller.dart';
 import 'package:budget_tracker_app/utils/category_images_utils.dart';
 import 'package:budget_tracker_app/utils/gif_images_utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,6 +19,8 @@ class category_pageView extends StatefulWidget {
 class _category_pageViewState extends State<category_pageView>
     with TickerProviderStateMixin {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  DateTimeController dateTimeController = Get.put(DateTimeController());
 
   CategoryController categoryController = Get.put(
     CategoryController(),
@@ -76,236 +79,267 @@ class _category_pageViewState extends State<category_pageView>
     return Padding(
       padding: const EdgeInsets.all(16),
       child: AnimatedBuilder(
-          animation: controller,
-          builder: (context, value) {
-            return Stack(
-              children: [
-                AlignTransition(
-                  alignment: position,
+        animation: controller,
+        builder: (context, value) {
+          return Stack(
+            children: [
+              AlignTransition(
+                alignment: position,
+                child: AnimatedContainer(
+                  height: 180,
+                  width: 200,
+                  curve: Curves.easeInOutQuad,
+                  duration: const Duration(seconds: 1),
+                  decoration: BoxDecoration(
+                    // color: const Color(0xFF414C6B),
+                    image: DecorationImage(
+                      image: AssetImage("${gifImages}wlet.gif"),
+                      fit: BoxFit.contain,
+                    ),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+              Transform.translate(
+                offset: const Offset(250, 670),
+                child: FadeTransition(
+                  opacity: opacity,
                   child: AnimatedContainer(
                     height: 180,
                     width: 200,
                     curve: Curves.easeInOutQuad,
                     duration: const Duration(seconds: 1),
                     decoration: BoxDecoration(
-                      // color: const Color(0xFF414C6B),
+                      // color: const Color(0xFFE4979E),
                       image: DecorationImage(
-                        image: AssetImage("${gifImages}wlet.gif"),
+                        image: AssetImage("${gifImages}budgetfriendly.gif"),
                         fit: BoxFit.contain,
                       ),
                       shape: BoxShape.circle,
-                      // boxShadow: const [
-                      //   BoxShadow(
-                      //     color: Color(0xFF414C6B),
-                      //     offset: Offset(0.6, 1),
-                      //     spreadRadius: 4,
-                      //     blurRadius: 8,
-                      //   ),
-                      // ],
                     ),
                   ),
                 ),
-                Transform.translate(
-                  offset: const Offset(250, 670),
-                  child: FadeTransition(
-                    opacity: opacity,
-                    child: AnimatedContainer(
-                      height: 180,
-                      width: 200,
-                      curve: Curves.easeInOutQuad,
-                      duration: const Duration(seconds: 1),
-                      decoration: BoxDecoration(
-                        // color: const Color(0xFFE4979E),
-                        image: DecorationImage(
-                          image: AssetImage("${gifImages}budgetfriendly.gif"),
-                          fit: BoxFit.contain,
+              ),
+              AlignTransition(
+                alignment: stopPosition,
+                child: Form(
+                  key: formKey,
+                  child: SizedBox(
+                    height: 720,
+                    child: ListView(
+                      children: [
+                        Text(
+                          "Remark",
+                          style: GoogleFonts.modernAntiqua(fontSize: 18),
                         ),
-                        shape: BoxShape.circle,
-                        // boxShadow: const [
-                        //   BoxShadow(
-                        //     color: Color(0xFFE4979E),
-                        //     offset: Offset(0.6, 1),
-                        //     spreadRadius: 4,
-                        //     blurRadius: 8,
-                        //   ),
-                        // ],
-                      ),
-                    ),
-                  ),
-                ),
-                AlignTransition(
-                  alignment: stopPosition,
-                  child: Form(
-                    key: formKey,
-                    child: SizedBox(
-                      height: 720,
-                      child: ListView(
-                        children: [
-                          Text(
-                            "Remark",
-                            style: GoogleFonts.modernAntiqua(fontSize: 18),
+                        const TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: "Title",
                           ),
-                          const TextField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Title",
-                            ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          "Amount",
+                          style: GoogleFonts.modernAntiqua(fontSize: 18),
+                        ),
+                        const TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: "Amount",
                           ),
-                          const SizedBox(height: 10),
-                          Text(
-                            "Amount",
-                            style: GoogleFonts.modernAntiqua(fontSize: 18),
-                          ),
-                          const TextField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Amount",
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            "Type",
-                            style: GoogleFonts.modernAntiqua(fontSize: 18),
-                          ),
-                          const SizedBox(height: 10),
-                          Obx(
-                            () => CupertinoSlidingSegmentedControl(
-                              groupValue: categoryController.currentType.value,
-                              children: {
-                                "INCOME": Text(
-                                  "INCOME",
-                                  style: GoogleFonts.modernAntiqua(
-                                    textStyle: TextStyle(
-                                      fontWeight: categoryController
-                                                  .currentType.value ==
-                                              "INCOME"
-                                          ? FontWeight.w900
-                                          : FontWeight.w200,
-                                    ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          "Type",
+                          style: GoogleFonts.modernAntiqua(fontSize: 18),
+                        ),
+                        const SizedBox(height: 10),
+                        Obx(
+                          () => CupertinoSlidingSegmentedControl(
+                            groupValue: categoryController.currentType.value,
+                            children: {
+                              "INCOME": Text(
+                                "INCOME",
+                                style: GoogleFonts.modernAntiqua(
+                                  textStyle: TextStyle(
+                                    fontWeight:
+                                        categoryController.currentType.value ==
+                                                "INCOME"
+                                            ? FontWeight.w900
+                                            : FontWeight.w200,
                                   ),
                                 ),
-                                "EXPANSE": Text(
-                                  "EXPANSE",
-                                  style: GoogleFonts.modernAntiqua(
-                                    textStyle: TextStyle(
-                                      fontWeight: categoryController
-                                                  .currentType.value ==
-                                              "INCOME"
-                                          ? FontWeight.w200
-                                          : FontWeight.w900,
-                                    ),
+                              ),
+                              "EXPANSE": Text(
+                                "EXPANSE",
+                                style: GoogleFonts.modernAntiqua(
+                                  textStyle: TextStyle(
+                                    fontWeight:
+                                        categoryController.currentType.value ==
+                                                "INCOME"
+                                            ? FontWeight.w200
+                                            : FontWeight.w900,
                                   ),
                                 ),
-                              },
-                              onValueChanged: (value) {
-                                categoryController.changType(type: value!);
-                              },
+                              ),
+                            },
+                            onValueChanged: (value) {
+                              categoryController.changType(type: value!);
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          "Date & Time",
+                          style: GoogleFonts.modernAntiqua(fontSize: 18),
+                        ),
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    showDatePicker(
+                                      context: context,
+                                      initialDate: dateTimeController.dateTime,
+                                      firstDate: DateTime(2000),
+                                      lastDate: DateTime(2030),
+                                    );
+                                  },
+                                  icon: const Icon(
+                                    Icons.date_range,
+                                  ),
+                                ),
+                                Text(
+                                  "Pick a Date",
+                                  style: GoogleFonts.modernAntiqua(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    showTimePicker(
+                                      context: context,
+                                      initialTime: dateTimeController.time,
+                                    );
+                                  },
+                                  icon: const Icon(
+                                    Icons.access_time_rounded,
+                                  ),
+                                ),
+                                Text(
+                                  "Pick a Time",
+                                  style: GoogleFonts.modernAntiqua(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Container(
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF414C6B),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(20),
                             ),
                           ),
-                          const SizedBox(height: 20),
-                          Container(
-                            decoration: const BoxDecoration(
-                              color: Color(0xFF414C6B),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(20),
-                              ),
-                              // boxShadow: [
-                              //   BoxShadow(
-                              //       color: Colors.green.shade200,
-                              //       blurRadius: 4,
-                              //       spreadRadius: 1,
-                              //       offset: const Offset(0.1, 0.6),
-                              //       blurStyle: BlurStyle.solid),
-                              // ],
+                          alignment: Alignment.center,
+                          child: GestureDetector(
+                            child: Row(
+                              children: [
+                                const Spacer(flex: 2),
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(
+                                    Icons.category_outlined,
+                                    size: 30,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                const Spacer(),
+                                Text(
+                                  "Select Category",
+                                  style: GoogleFonts.modernAntiqua(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                const Spacer(flex: 2),
+                              ],
                             ),
-                            alignment: Alignment.center,
-                            child: GestureDetector(
-                              child: Row(
-                                children: [
-                                  const Spacer(flex: 2),
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.category_outlined,
-                                      size: 30,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  Text(
-                                    "Select Category",
-                                    style: GoogleFonts.modernAntiqua(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  const Spacer(flex: 2),
-                                ],
-                              ),
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    content: SizedBox(
-                                      height: 600,
-                                      width: 400,
-                                      child: GridView.builder(
-                                        itemCount: allCategoryImages.length,
-                                        gridDelegate:
-                                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2,
-                                          childAspectRatio: 1 / 1,
-                                          mainAxisSpacing: 5,
-                                          crossAxisSpacing: 5,
-                                        ),
-                                        itemBuilder: (context, index) =>
-                                            GestureDetector(
-                                          onTap: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Card(
-                                            child: Column(
-                                              children: [
-                                                Expanded(
-                                                  flex: 4,
-                                                  child: Container(
-                                                    height: 300,
-                                                    width: 120,
-                                                    decoration: BoxDecoration(
-                                                      image: DecorationImage(
-                                                        image: AssetImage(
-                                                          allCategoryImages[
-                                                              index]["image"],
-                                                        ),
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  content: SizedBox(
+                                    height: 600,
+                                    width: 400,
+                                    child: GridView.builder(
+                                      itemCount: allCategoryImages.length,
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        childAspectRatio: 1 / 1,
+                                        mainAxisSpacing: 5,
+                                        crossAxisSpacing: 5,
+                                      ),
+                                      itemBuilder: (context, index) =>
+                                          GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Card(
+                                          child: Column(
+                                            children: [
+                                              Expanded(
+                                                flex: 4,
+                                                child: Container(
+                                                  height: 300,
+                                                  width: 120,
+                                                  decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                      image: AssetImage(
+                                                        allCategoryImages[index]
+                                                            ["image"],
                                                       ),
                                                     ),
                                                   ),
                                                 ),
-                                                Expanded(
-                                                    child: Text(
+                                              ),
+                                              Expanded(
+                                                child: Text(
                                                   allCategoryImages[index]
                                                       ['name'],
-                                                )),
-                                              ],
-                                            ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                );
-                              },
-                            ),
+                                ),
+                              );
+                            },
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              ],
-            );
-          }),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }
