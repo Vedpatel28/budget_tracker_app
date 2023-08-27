@@ -28,7 +28,7 @@ class _category_pageViewState extends State<category_pageView>
 
   DateTimeController dateTimeController = Get.put(DateTimeController());
 
-  TransactionModal _transactionModal = TransactionModal.init();
+  final TransactionModal _transactionModal = TransactionModal.init();
 
   CategoryController categoryController = Get.put(
     CategoryController(),
@@ -36,7 +36,7 @@ class _category_pageViewState extends State<category_pageView>
 
   String? _title;
   String? _amount;
-  int? _category;
+  String? _category;
   String? _type;
   String? _date;
   String? _time;
@@ -247,6 +247,7 @@ class _category_pageViewState extends State<category_pageView>
                               child: TextField(
                                 onSubmitted: (value) {
                                   _date = value;
+                                  _date = dateTimeController.date as String?;
                                 },
                                 controller: dateTimeController.datePicker,
                                 onTap: () async {
@@ -290,6 +291,7 @@ class _category_pageViewState extends State<category_pageView>
                               child: TextField(
                                 onSubmitted: (value) {
                                   _time = value;
+                                  _time = dateTimeController.time as String?;
                                 },
                                 controller: dateTimeController.timePicker,
                                 onTap: () async {
@@ -373,8 +375,9 @@ class _category_pageViewState extends State<category_pageView>
                                       itemBuilder: (context, index) =>
                                           GestureDetector(
                                         onTap: () {
-                                          _category = index;
-                                          Navigator.of(context).pop();
+                                          _category = allCategoryImages[index]['name'];
+                                          // _category = index.toString();
+                                          // Navigator.of(context).pop();
                                         },
                                         child: Card(
                                           child: Column(
@@ -419,8 +422,9 @@ class _category_pageViewState extends State<category_pageView>
                               _transactionModal.remark = _title!;
                               _transactionModal.amount = _amount!;
                               _transactionModal.type = _type!;
-                              _transactionModal.date = _date!;
-                              _transactionModal.category = _category! as String;
+                              _transactionModal.date =
+                                  _date ?? "${dateTimeController.date}";
+                              _transactionModal.category = _category!;
                               _transactionModal.time = _time!;
                             }
                           },
