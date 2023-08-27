@@ -65,10 +65,17 @@ class dbHelper {
   }
 
   InsertInTransaction({required TransactionModal transaction}) {
+    String query =
+        "INSERT INTO $transactionTable( $trRem , $trAmo , $trType , $trCat , $trDate , $trTime) VALUES( ? , ? , ? , ? , ? , ? ) ";
 
-    String query = "INSERT INTO $transactionTable( $trRem , $trAmo , $trType , $trCat , $trDate , $trTime) VALUES( ? , ? , ? , ? , ? , ? ) ";
-
-    List getArgs = [transaction.remark,transaction.amount,transaction.type,transaction.category,transaction.date,transaction.time];
+    List getArgs = [
+      transaction.remark,
+      transaction.amount,
+      transaction.type,
+      transaction.category,
+      transaction.date,
+      transaction.time,
+    ];
 
     database.rawInsert(query, getArgs);
   }
