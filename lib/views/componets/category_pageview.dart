@@ -375,9 +375,12 @@ class _category_pageViewState extends State<category_pageView>
                                       itemBuilder: (context, index) =>
                                           GestureDetector(
                                         onTap: () {
-                                          _category = allCategoryImages[index]['name'];
+                                          log("$_category");
+                                          _category =
+                                              allCategoryImages[index]['name'];
+                                          log("$_category");
                                           // _category = index.toString();
-                                          // Navigator.of(context).pop();
+                                          Navigator.of(context).pop();
                                         },
                                         child: Card(
                                           child: Column(
@@ -425,7 +428,14 @@ class _category_pageViewState extends State<category_pageView>
                               _transactionModal.date =
                                   _date ?? "${dateTimeController.date}";
                               _transactionModal.category = _category!;
-                              _transactionModal.time = _time!;
+                              _transactionModal.time =
+                                  _time ?? "${dateTimeController.time}";
+
+                              Get.snackbar(
+                                  "Successful", "All Transaction Added");
+                            } else {
+                              Get.snackbar(
+                                  " Error !!! ", " Something Error Found ");
                             }
                           },
                           child: Text(
