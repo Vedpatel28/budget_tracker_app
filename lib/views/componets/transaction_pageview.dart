@@ -12,14 +12,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class category_pageView extends StatefulWidget {
-  const category_pageView({super.key});
+class Transaction_PageView extends StatefulWidget {
+  const Transaction_PageView({super.key});
 
   @override
-  State<category_pageView> createState() => _category_pageViewState();
+  State<Transaction_PageView> createState() => _Transaction_PageViewState();
 }
 
-class _category_pageViewState extends State<category_pageView>
+class _Transaction_PageViewState extends State<Transaction_PageView>
     with TickerProviderStateMixin {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -243,7 +243,7 @@ class _category_pageViewState extends State<category_pageView>
                         Row(
                           children: [
                             SizedBox(
-                              width: 370,
+                              width: 360,
                               child: TextField(
                                 onSubmitted: (value) {
                                   _date = value;
@@ -256,12 +256,10 @@ class _category_pageViewState extends State<category_pageView>
                                     context: context,
                                     initialDate: DateTime.now(),
                                     firstDate: DateTime(2000),
-                                    lastDate: DateTime(2025),
+                                    lastDate: DateTime(3000),
                                   );
-
                                   if (dateTimeController.date != null) {
                                     dateTimeController.setDate();
-
                                     log(" Date : ${dateTimeController.date} ");
                                   } else {
                                     Get.snackbar(
@@ -287,7 +285,7 @@ class _category_pageViewState extends State<category_pageView>
                         Row(
                           children: [
                             SizedBox(
-                              width: 370,
+                              width: 360,
                               child: TextField(
                                 onSubmitted: (value) {
                                   _time = value;
@@ -432,7 +430,11 @@ class _category_pageViewState extends State<category_pageView>
                                   _time ?? "${dateTimeController.time}";
 
                               Get.snackbar(
-                                  "Successful", "All Transaction Added");
+                                "Successful",
+                                "All Transaction Added",
+                              );
+
+                              log(_transactionModal.remark);
                             } else {
                               Get.snackbar(
                                   " Error !!! ", " Something Error Found ");

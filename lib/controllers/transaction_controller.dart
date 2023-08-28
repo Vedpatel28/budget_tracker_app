@@ -1,5 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'dart:developer';
+
 import 'package:budget_tracker_app/controllers/db_helper/db_helper.dart';
 import 'package:budget_tracker_app/modals/Transaction_modal.dart';
 import 'package:get/get.dart';
@@ -12,6 +14,8 @@ class TransactionController extends GetxController {
 
   init() async {
     _allTransaction(await dbHelper.dbhelper.DisplayTransaction());
+    log(" Images : $TransactionModal");
+
   }
 
   addTransaction({required TransactionModal transactionModal}) async {

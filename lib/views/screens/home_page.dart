@@ -1,6 +1,11 @@
 // ignore_for_file: must_be_immutable, camel_case_types
 
+import 'dart:developer';
+
 import 'package:budget_tracker_app/controllers/page_controller.dart';
+import 'package:budget_tracker_app/modals/Transaction_modal.dart';
+import 'package:budget_tracker_app/views/componets/setting_pageviews.dart';
+import 'package:budget_tracker_app/views/componets/tr_history_pageviews.dart';
 import 'package:budget_tracker_app/views/componets/transaction_pageview.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,19 +28,16 @@ class Home_page extends StatelessWidget {
         },
         controller: controller.pageController,
         children: [
-          category_pageView(),
-          Container(
-            color: Colors.cyanAccent,
-          ),
-          Container(
-            color: Colors.green,
-          ),
+          const Transaction_PageView(),
+          Tr_History_PageViews(),
+          const Setting_PageView(),
         ],
       ),
       bottomNavigationBar: Obx(
         () => BottomNavigationBar(
           onTap: (index) {
             controller.changeIndex(index: index);
+            index == 1 ? log(" Images : $TransactionModal") : Null;
           },
           currentIndex: controller.getIndex,
           items: const [

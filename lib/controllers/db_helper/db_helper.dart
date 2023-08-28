@@ -105,4 +105,15 @@ class dbHelper {
 
     return allCategory;
   }
+
+  Future<List<TransactionModal>> DisplayTransaction() async {
+    String query = "SELECT * FROM $transactionTable";
+
+    List allData = await database.rawQuery(query);
+
+    List<TransactionModal> allTransaction =
+        allData.map((e) => TransactionModal.fromMap(data: e)).toList();
+
+    return allTransaction;
+  }
 }
