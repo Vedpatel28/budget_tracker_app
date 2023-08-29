@@ -24,7 +24,9 @@ class Tr_History_PageViews extends StatelessWidget {
               itemBuilder: (context, index) {
                 TransactionModal transactionModal =
                     _transactionController.getAllTransaction[index];
-                log(" Images : $transactionModal");
+                log(" Images : ${transactionModal.remark}");
+                log(" Images : ${transactionModal.amount}");
+                log(" Images : ${transactionModal.time}");
 
                 var image = allCategoryImages.where(
                     (element) => element['Name'] == transactionModal.category);
