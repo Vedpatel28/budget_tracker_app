@@ -1,5 +1,7 @@
 // ignore_for_file: camel_case_types, non_constant_identifier_names
 
+import 'dart:developer';
+
 import 'package:budget_tracker_app/modals/Category_modal.dart';
 import 'package:budget_tracker_app/modals/Transaction_modal.dart';
 import 'package:path/path.dart';
@@ -33,7 +35,7 @@ class dbHelper {
 
   initDB() async {
     String dbPath = await getDatabasesPath();
-    String dbName = "BTT.db";
+    String dbName = "BTT1.db";
 
     String path = join(dbPath, dbName);
 
@@ -41,17 +43,26 @@ class dbHelper {
       path,
       onCreate: (db, version) {
         // Balance Creating Query
-        db.execute(
-            ' CREATE TABLE $balanceTable( $blId INTEGER , $blAmo INTEGER ) ');
+        db
+            .execute(
+                ' CREATE TABLE $balanceTable( $blId INTEGER , $blAmo INTEGER ) ')
+            .then(
+              (value) => log("Table are Created"),
+            );
         db.rawInsert("INSERT INTO $balanceTable VALUES (101,0)");
 
         // Transaction Creating Query
-        db.execute(
-            'CREATE TABLE $transactionTable( $trId INTEGER AUTOINCREMENT, $trRem TEXT , $trAmo INTEGER NOT NULL, $trType TEXT CHECK($trType IN("INCOME","EXPANSE")), $trCat TEXT , $trDate TEXT ,$trTime TEXT)');
+        db
+            .execute(
+              'CREATE TABLE $transactionTable( $trId INTEGER PRIMARY KEY AUTOINCREMENT, $trRem TEXT , $trAmo INTEGER NOT NULL, $trType TEXT CHECK($trType IN("INCOME","EXPANSE")), $trCat TEXT , $trDate TEXT ,$trTime TEXT)',
+            )
+            .then(
+              (value) => log("Transaction Table are Created"),
+            );
 
         // Category Creating Query
         db.execute(
-            ' CREATE TABLE $categoryTable( $ctId INTEGER AUTOINCREMENT, $ctTitle TEXT , $ctImage BLOB )');
+            ' CREATE TABLE $categoryTable( $ctId INTEGER PRIMARY KEY AUTOINCREMENT, $ctTitle TEXT , $ctImage BLOB )');
       },
       version: 1,
     );
@@ -115,5 +126,11 @@ class dbHelper {
         allData.map((e) => TransactionModal.fromMap(data: e)).toList();
 
     return allTransaction;
+  }
+
+  DeleteTransaction() async {
+    String query = " DELETE FROM $transactionTable WHERE Id = $trId ";
+
+    return await database.rawDelete(query);
   }
 }
