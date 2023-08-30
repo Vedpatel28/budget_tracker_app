@@ -133,4 +133,15 @@ class dbHelper {
 
     return await database.rawDelete(query);
   }
+
+  SearchTransaction({required String remarks}) async {
+    String query =
+        'SELECT * FROM $transactionTable WHERE $trRem LIKE "$remarks"';
+
+    List search = await database.rawQuery(query);
+
+    List<TransactionModal> allSearch = search.map((e) => TransactionModal.fromMap(data: e)).toList();
+
+    return allSearch;
+  }
 }
