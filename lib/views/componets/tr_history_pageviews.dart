@@ -1,9 +1,7 @@
 // ignore_for_file: camel_case_types, invalid_use_of_protected_member, must_be_immutable, unrelated_type_equality_checks
 
-import 'dart:developer';
 
 import 'package:budget_tracker_app/controllers/category_controller.dart';
-import 'package:budget_tracker_app/controllers/db_helper/db_helper.dart';
 import 'package:budget_tracker_app/controllers/transaction_controller.dart';
 import 'package:budget_tracker_app/modals/Transaction_modal.dart';
 import 'package:budget_tracker_app/utils/category_images_utils.dart';
@@ -31,9 +29,7 @@ class Tr_History_PageViews extends StatelessWidget {
             height: 20,
           ),
           TextField(
-            onChanged: (value) {
-              dbHelper.dbhelper.
-            },
+            onChanged: (value) {},
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               hintText: "Search And Find Transaction",
