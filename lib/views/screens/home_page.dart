@@ -4,7 +4,7 @@ import 'dart:developer';
 
 import 'package:budget_tracker_app/controllers/page_controller.dart';
 import 'package:budget_tracker_app/modals/Transaction_modal.dart';
-import 'package:budget_tracker_app/views/componets/setting_pageviews.dart';
+import 'package:budget_tracker_app/views/componets/search_pageviews.dart';
 import 'package:budget_tracker_app/views/componets/tr_history_pageviews.dart';
 import 'package:budget_tracker_app/views/componets/transaction_pageview.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +28,7 @@ class Home_page extends StatelessWidget {
         children: [
           const Transaction_PageView(),
           Tr_History_PageViews(),
-          const Setting_PageView(),
+          Setting_PageView(),
         ],
       ),
       bottomNavigationBar: Obx(
@@ -41,9 +41,9 @@ class Home_page extends StatelessWidget {
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.account_balance_wallet), label: "Wallet"),
+                icon: Icon(Icons.edit_calendar_outlined), label: "Transaction"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.settings), label: "Settings"),
+                icon: Icon(Icons.content_paste_search_outlined), label: "Search"),
           ],
         ),
       ),

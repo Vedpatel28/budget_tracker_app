@@ -43,8 +43,10 @@ class dbHelper {
       path,
       onCreate: (db, version) {
         // Balance Creating Query
-        db.execute(
-                ' CREATE TABLE $balanceTable( $blId INTEGER , $blAmo INTEGER ) ').then(
+        db
+            .execute(
+                ' CREATE TABLE $balanceTable( $blId INTEGER , $blAmo INTEGER ) ')
+            .then(
               (value) => log("Table are Created"),
             );
         db.rawInsert("INSERT INTO $balanceTable VALUES (101,0)");
@@ -133,13 +135,15 @@ class dbHelper {
     return await database.rawDelete(query);
   }
 
-  SearchTransaction({required String remarks}) async {
+  Future<List<TransactionModal>> SearchTransaction(
+      {required String remarks}) async {
     String query =
-        'SELECT * FROM $transactionTable WHERE $trRem LIKE "$remarks"';
+        'SELECT * FROM $transactionTable WHERE $trRem LIKE "%$remarks%"';
 
     List search = await database.rawQuery(query);
 
-    List<TransactionModal> allSearch = search.map((e) => TransactionModal.fromMap(data: e)).toList();
+    List<TransactionModal> allSearch =
+        search.map((e) => TransactionModal.fromMap(data: e)).toList();
 
     return allSearch;
   }

@@ -17,6 +17,8 @@ class TransactionModal {
     this.time,
   );
 
+
+
   TransactionModal.init() {
     log("Empty transaction initialized...");
   }
