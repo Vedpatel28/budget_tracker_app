@@ -43,10 +43,8 @@ class dbHelper {
       path,
       onCreate: (db, version) {
         // Balance Creating Query
-        db
-            .execute(
-                ' CREATE TABLE $balanceTable( $blId INTEGER , $blAmo INTEGER ) ')
-            .then(
+        db.execute(
+                ' CREATE TABLE $balanceTable( $blId INTEGER , $blAmo INTEGER ) ').then(
               (value) => log("Table are Created"),
             );
         db.rawInsert("INSERT INTO $balanceTable VALUES (101,0)");
@@ -106,7 +104,7 @@ class dbHelper {
   }
 
   Future<List<CategoryModal>> DisplayCategory() async {
-    List response = await database.rawQuery("SELECT * FROM $categoryTable");
+    List response = await database.rawQuery("SELECT * FROM $transactionTable");
 
     List<CategoryModal> allCategory = response
         .map(
@@ -121,6 +119,7 @@ class dbHelper {
     String query = "SELECT * FROM $transactionTable";
 
     List allData = await database.rawQuery(query);
+    log("$allData");
 
     List<TransactionModal> allTransaction =
         allData.map((e) => TransactionModal.fromMap(data: e)).toList();
