@@ -3,6 +3,7 @@
 import 'dart:developer';
 
 import 'package:budget_tracker_app/controllers/page_controller.dart';
+import 'package:budget_tracker_app/controllers/transaction_controller.dart';
 import 'package:budget_tracker_app/modals/Transaction_modal.dart';
 import 'package:budget_tracker_app/views/componets/setting_pageviews.dart';
 import 'package:budget_tracker_app/views/componets/tr_history_pageviews.dart';
@@ -16,6 +17,8 @@ class Home_page extends StatelessWidget {
   isPageController controller = Get.put(
     isPageController(),
   );
+
+  final TransactionController _transactionController = Get.put(TransactionController());
 
   @override
   Widget build(BuildContext context) {
