@@ -13,7 +13,8 @@ import 'package:google_fonts/google_fonts.dart';
 class Tr_History_PageViews extends StatelessWidget {
   Tr_History_PageViews({super.key});
 
-    final TransactionController _transactionController = Get.find();
+  final TransactionController _transactionController =
+  Get.put(TransactionController());
 
   @override
   Widget build(BuildContext context) {
@@ -31,64 +32,58 @@ class Tr_History_PageViews extends StatelessWidget {
               hintText: "Search And Find Transaction",
             ),
           ),
-
           _transactionController.getAllTransaction.value.isNotEmpty
-              ? SizedBox(
-            height: 300,
-                width: double.infinity,
-                child: ListView.builder(
-                    itemCount: _transactionController.getAllTransaction.value.length,
-                    itemBuilder: (context, index) {
-                      TransactionModal transactionModal =
-                          _transactionController.getAllTransaction[index];
-                      log(" Images : ${transactionModal.remark}");
-                      log(" Images : ${transactionModal.amount}");
-                      log(" Images : ${transactionModal.time}");
+              ? ListView.builder(
+            itemCount: _transactionController.getAllTransaction.length,
+            itemBuilder: (context, index) {
+              TransactionModal transactionModal =
+              _transactionController.getAllTransaction[index];
+              log(" Images : ${transactionModal.remark}");
+              log(" Images : ${transactionModal.amount}");
+              log(" Images : ${transactionModal.time}");
 
-                      var  image = allCategoryImages.where((element) =>
-                          element['Name'] == transactionModal.category);
+              var image = allCategoryImages.where((element) =>
+              element['Name'] == transactionModal.category);
 
-                      // String images = image.toList()[0]['image'];
+              String images = image.toList()[0]['image'];
 
-                      // log(" Images : $images");
+              log(" Images : $images");
 
-                      return Card(
-                        child: ListTile(
-                          title: Text(transactionModal.remark),
-                          leading: const CircleAvatar(
-                            // foregroundImage: AssetImage(images),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-              )
-              : Container(
-                  height: 400,
-                  alignment: Alignment.bottomCenter,
-                  child: Column(
-                    children: [
-                      const Spacer(),
-                      Container(
-                        height: 180,
-                        width: 200,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("${gifImages}sopingman.gif"),
-                            fit: BoxFit.contain,
-                          ),
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      Text(
-                        "Can't found any Transaction",
-                        style: GoogleFonts.modernAntiqua(
-                          fontSize: 20,
-                        ),
-                      ),
-                    ],
+              return Card(
+                child: ListTile(
+                  leading: CircleAvatar(
+                    foregroundImage: AssetImage(images),
                   ),
                 ),
+              );
+            },
+          )
+              : Container(
+            height: 400,
+            alignment: Alignment.bottomCenter,
+            child: Column(
+              children: [
+                const Spacer(),
+                Container(
+                  height: 180,
+                  width: 200,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("${gifImages}sopingman.gif"),
+                      fit: BoxFit.contain,
+                    ),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                Text(
+                  "Can't found any Transaction",
+                  style: GoogleFonts.modernAntiqua(
+                    fontSize: 22,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
