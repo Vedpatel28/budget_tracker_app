@@ -13,9 +13,7 @@ import 'package:get/get.dart';
 class Home_page extends StatelessWidget {
   Home_page({super.key});
 
-  isPageController controller = Get.put(
-    isPageController(),
-  );
+  isPageController controller = Get.put(isPageController());
 
   @override
   Widget build(BuildContext context) {
