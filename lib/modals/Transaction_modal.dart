@@ -26,9 +26,9 @@ class TransactionModal {
       data["Remark"],
       data["Type"],
       data["Category"],
-      data["Amount"],
-      data["Date"],
-      data["Time"],
+      data["Amount"].toString(),
+      data["Date"].toString(),
+      data["Time"].toString(),
     );
   }
 }
