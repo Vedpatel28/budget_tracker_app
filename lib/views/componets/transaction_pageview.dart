@@ -444,7 +444,6 @@ class _Transaction_PageViewState extends State<Transaction_PageView>
                                   _time ?? "${dateTimeController.date}",
                                 ),
                               );
-
                               _transactionController.init();
 
                               Get.snackbar(
@@ -453,9 +452,6 @@ class _Transaction_PageViewState extends State<Transaction_PageView>
                               );
 
                               log(_transactionModal.remark);
-
-                              _transactionController.getBalance();
-
                             } else {
                               Get.snackbar(
                                   " Error !!! ", " Something Error Found ");

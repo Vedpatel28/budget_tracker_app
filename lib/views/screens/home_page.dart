@@ -3,6 +3,7 @@
 import 'dart:developer';
 
 import 'package:budget_tracker_app/controllers/page_controller.dart';
+import 'package:budget_tracker_app/controllers/transaction_controller.dart';
 import 'package:budget_tracker_app/modals/Transaction_modal.dart';
 import 'package:budget_tracker_app/views/componets/search_pageviews.dart';
 import 'package:budget_tracker_app/views/componets/tr_history_pageviews.dart';
@@ -14,6 +15,7 @@ class Home_page extends StatelessWidget {
   Home_page({super.key});
 
   isPageController controller = Get.put(isPageController());
+  final TransactionController _transactionController = Get.put(TransactionController());
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +37,7 @@ class Home_page extends StatelessWidget {
         () => BottomNavigationBar(
           onTap: (index) {
             controller.changeIndex(index: index);
+            _transactionController.init();
             index == 1 ? log(" Images : $TransactionModal") : Null;
           },
           currentIndex: controller.getIndex,

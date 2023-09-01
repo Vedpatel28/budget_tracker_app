@@ -21,6 +21,7 @@ class TransactionController extends GetxController {
 
   init() async {
     _allTransaction(await dbHelper.dbhelper.DisplayTransaction());
+    getBalance();
     log(" Images : $TransactionModal");
 
   }

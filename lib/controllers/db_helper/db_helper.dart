@@ -40,7 +40,7 @@ class dbHelper {
 
   initDB() async {
     String dbPath = await getDatabasesPath();
-    String dbName = "BTT5.db";
+    String dbName = "BTT6.db";
 
     String path = join(dbPath, dbName);
 
