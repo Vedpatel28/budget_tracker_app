@@ -203,7 +203,7 @@ class _Transaction_PageViewState extends State<Transaction_PageView>
                         ),
                         const SizedBox(height: 10),
                         Obx(
-                              () => CupertinoSlidingSegmentedControl(
+                          () => CupertinoSlidingSegmentedControl(
                             groupValue: categoryController.currentType.value,
                             children: {
                               "INCOME": Text(
@@ -211,10 +211,10 @@ class _Transaction_PageViewState extends State<Transaction_PageView>
                                 style: GoogleFonts.modernAntiqua(
                                   textStyle: TextStyle(
                                     fontWeight:
-                                    categoryController.currentType.value ==
-                                        "INCOME"
-                                        ? FontWeight.w900
-                                        : FontWeight.w200,
+                                        categoryController.currentType.value ==
+                                                "INCOME"
+                                            ? FontWeight.w900
+                                            : FontWeight.w200,
                                   ),
                                 ),
                               ),
@@ -223,10 +223,10 @@ class _Transaction_PageViewState extends State<Transaction_PageView>
                                 style: GoogleFonts.modernAntiqua(
                                   textStyle: TextStyle(
                                     fontWeight:
-                                    categoryController.currentType.value ==
-                                        "INCOME"
-                                        ? FontWeight.w200
-                                        : FontWeight.w900,
+                                        categoryController.currentType.value ==
+                                                "INCOME"
+                                            ? FontWeight.w200
+                                            : FontWeight.w900,
                                   ),
                                 ),
                               ),
@@ -255,7 +255,7 @@ class _Transaction_PageViewState extends State<Transaction_PageView>
                                 controller: dateTimeController.datePicker,
                                 onTap: () async {
                                   dateTimeController.date =
-                                  await showDatePicker(
+                                      await showDatePicker(
                                     context: context,
                                     initialDate: DateTime.now(),
                                     firstDate: DateTime(2000),
@@ -298,7 +298,7 @@ class _Transaction_PageViewState extends State<Transaction_PageView>
                                 controller: dateTimeController.timePicker,
                                 onTap: () async {
                                   dateTimeController.time =
-                                  await showTimePicker(
+                                      await showTimePicker(
                                     context: context,
                                     initialTime: TimeOfDay.now(),
                                   );
@@ -368,7 +368,7 @@ class _Transaction_PageViewState extends State<Transaction_PageView>
                                     child: GridView.builder(
                                       itemCount: allCategoryImages.length,
                                       gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
                                         crossAxisCount: 2,
                                         childAspectRatio: 1 / 1,
                                         mainAxisSpacing: 5,
@@ -376,44 +376,43 @@ class _Transaction_PageViewState extends State<Transaction_PageView>
                                       ),
                                       itemBuilder: (context, index) =>
                                           GestureDetector(
-                                            onTap: () {
-                                              log("$_category");
-                                              _category =
+                                        onTap: () {
+                                          _category =
                                               allCategoryImages[index]['name'];
-                                              log("$_category");
-                                              // _category = index.toString();
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: Card(
-                                              child: Column(
-                                                children: [
-                                                  Expanded(
-                                                    flex: 4,
-                                                    child: Container(
-                                                      height: 300,
-                                                      width: 120,
-                                                      decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                          image: AssetImage(
-                                                            allCategoryImages[index]
+                                          log("$_category");
+                                          // _category = index.toString();
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Card(
+                                          child: Column(
+                                            children: [
+                                              Expanded(
+                                                flex: 4,
+                                                child: Container(
+                                                  height: 300,
+                                                  width: 120,
+                                                  decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                      image: AssetImage(
+                                                        allCategoryImages[index]
                                                             ["image"],
-                                                          ),
-                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                  Expanded(
-                                                    child: Text(
-                                                      allCategoryImages[index]
-                                                      ['name'],
-                                                      style: GoogleFonts
-                                                          .modernAntiqua(),
-                                                    ),
-                                                  ),
-                                                ],
+                                                ),
                                               ),
-                                            ),
+                                              Expanded(
+                                                child: Text(
+                                                  allCategoryImages[index]
+                                                      ['name'],
+                                                  style: GoogleFonts
+                                                      .modernAntiqua(),
+                                                ),
+                                              ),
+                                            ],
                                           ),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -454,6 +453,9 @@ class _Transaction_PageViewState extends State<Transaction_PageView>
                               );
 
                               log(_transactionModal.remark);
+
+                              _transactionController.getBalance();
+
                             } else {
                               Get.snackbar(
                                   " Error !!! ", " Something Error Found ");

@@ -1,5 +1,6 @@
 // ignore_for_file: camel_case_types, invalid_use_of_protected_member, must_be_immutable, unrelated_type_equality_checks
 
+
 import 'package:budget_tracker_app/controllers/transaction_controller.dart';
 import 'package:budget_tracker_app/modals/Transaction_modal.dart';
 import 'package:budget_tracker_app/utils/category_images_utils.dart';
@@ -21,9 +22,10 @@ class Tr_History_PageViews extends StatelessWidget {
       child: Column(
         children: [
           Text("All Transaction",style: GoogleFonts.modernAntiqua(fontSize: 24),),
+          Text("${_transactionController.balance.value}"),
           _transactionController.getAllTransaction.value.isNotEmpty
               ? Container(
-            height: 500,
+            height: 630,
             alignment: Alignment.bottomCenter,
             child: ListView.builder(
               itemCount: _transactionController.getAllTransaction.length,
@@ -66,7 +68,7 @@ class Tr_History_PageViews extends StatelessWidget {
               Text(
                 "Can't found any Transaction",
                 style: GoogleFonts.modernAntiqua(
-                  fontSize: 22,
+                  fontSize: 18,
                 ),
               ),
             ],

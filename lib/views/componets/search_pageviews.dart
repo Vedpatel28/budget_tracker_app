@@ -12,7 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 class Setting_PageView extends StatelessWidget {
   Setting_PageView({super.key});
 
-  searchController _searchController = Get.put(searchController());
+  final searchController _searchController = Get.put(searchController());
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class Setting_PageView extends StatelessWidget {
           TextField(
             onChanged: (value) {
               _searchController.isSearch(search: value);
-              log("${_searchController.Search.value}");
+              log("Search : ${_searchController.Search.value}");
             },
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
@@ -61,7 +61,7 @@ class Setting_PageView extends StatelessWidget {
                           style: GoogleFonts.modernAntiqua(fontSize: 22),
                         );
                 },
-              ),
+              )
             ),
           ),
         ],

@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:budget_tracker_app/modals/Category_modal.dart';
 import 'package:budget_tracker_app/modals/Transaction_modal.dart';
+import 'package:budget_tracker_app/modals/balance_modal.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -17,9 +18,13 @@ class dbHelper {
   String balanceTable = "BalanceTable";
   String transactionTable = "TransactionTable";
   String categoryTable = "CategoryTable";
+  String BalanceTable = "BalanceTable";
 
   String blId = "Id";
   String blAmo = "Amount";
+
+  String baId = "Id";
+  String baAmo = "Balance";
 
   String trId = "Id";
   String trRem = "Remark";
@@ -35,7 +40,7 @@ class dbHelper {
 
   initDB() async {
     String dbPath = await getDatabasesPath();
-    String dbName = "BTT4.db";
+    String dbName = "BTT5.db";
 
     String path = join(dbPath, dbName);
 
@@ -54,11 +59,19 @@ class dbHelper {
         // Transaction Creating Query
         db
             .execute(
-              'CREATE TABLE $transactionTable( $trId INTEGER PRIMARY KEY AUTOINCREMENT, $trRem TEXT , $trAmo INTEGER NOT NULL, $trType TEXT CHECK($trType IN("INCOME","EXPANSE")), $trCat TEXT , $trDate TEXT ,$trTime TEXT)',
+              'CREATE TABLE $transactionTable( $trId INTEGER PRIMARY KEY AUTOINCREMENT, $trRem TEXT , $trAmo INTEGER NOT NULL, '
+              '$trType TEXT CHECK($trType IN("INCOME","EXPANSE")), $trCat TEXT , $trDate TEXT ,$trTime TEXT)',
             )
             .then(
               (value) => log("Transaction Table are Created"),
             );
+
+        // Balance Creating Query
+
+        db.execute(
+            'CREATE TABLE $BalanceTable ( $baId INTEGER PRIMARY KEY AUTOINCREMENT , $blAmo INTEGER )');
+
+        // BalanceInsert();
 
         // Category Creating Query
         db.execute(
@@ -75,7 +88,7 @@ class dbHelper {
         ' UPDATE TABLE $balanceTable SET $blAmo = $amount WHERE $blId = 101 ');
   }
 
-  InsertInTransaction({required TransactionModal transaction}) {
+  InsertInTransaction({required TransactionModal transaction}) async {
     String query =
         "INSERT INTO $transactionTable( $trRem , $trAmo , $trType , $trCat , $trDate , $trTime) VALUES( ? , ? , ? , ? , ? , ? ) ";
 
@@ -89,6 +102,22 @@ class dbHelper {
     ];
 
     database.rawInsert(query, getArgs);
+
+    int balance = await DisplayBalance();
+
+    if (transaction.type == "INCOME") {
+      balance += int.parse(transaction.amount);
+
+      log(" Balance = $balance");
+
+      updateBalance(balance: balance);
+      DisplayBalance();
+    } else {
+      balance -= int.parse(transaction.amount);
+      log(" Balance = $balance");
+      updateBalance(balance: balance);
+      DisplayBalance();
+    }
   }
 
   InsertInCategory(
@@ -142,9 +171,52 @@ class dbHelper {
 
     List search = await database.rawQuery(query);
 
+    log("$search");
+
     List<TransactionModal> allSearch =
         search.map((e) => TransactionModal.fromMap(data: e)).toList();
 
     return allSearch;
+  }
+
+  //
+  // UpdateTransaction({required int id, required String remark, required}) {
+  //   String query = "UPDATE $transactionTable WHERE $trId = $id , $trRem = ? , $trAmo = ? , $trType = ?";
+  //   List Args = [];
+  //
+  //   database.rawUpdate(query, Args);
+  // }
+
+  BalanceInsert() async {
+    String query = "INSERT INTO $BalanceTable($blId,$blAmo) VALUES( 101 , 0 )";
+
+    int response = await database.rawInsert(query);
+
+    return response;
+  }
+
+  Future<int> DisplayBalance() async {
+    String query = "SELECT * FROM $balanceTable";
+
+    List balance = await database.rawQuery(query);
+
+    List<BalanceModal> Balance =
+        balance.map((e) => BalanceModal.fromMap(data: e)).toList();
+
+    if (balance.isEmpty) {
+      BalanceInsert();
+      DisplayBalance();
+    }
+
+    int balance2 = Balance[0].amount;
+
+    return balance2;
+  }
+
+  updateBalance({required int balance}) {
+    String query =
+        "UPDATE $balanceTable SET $blAmo = $balance WHERE $blId = 101";
+
+    database.rawUpdate(query);
   }
 }
