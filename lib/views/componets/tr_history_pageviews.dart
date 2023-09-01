@@ -60,10 +60,6 @@ class Tr_History_PageViews extends StatelessWidget {
                                             initialValue:
                                                 transactionModal.amount,
                                           ),
-                                          TextFormField(
-                                            initialValue:
-                                                transactionModal.amount,
-                                          ),
                                         ],
                                       ),
                                     ),
