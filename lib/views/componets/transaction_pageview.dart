@@ -37,7 +37,6 @@ class _Transaction_PageViewState extends State<Transaction_PageView>
     CategoryController(),
   );
 
-  String? _id;
   String? _title;
   String? _amount;
   String? _type;
@@ -378,6 +377,7 @@ class _Transaction_PageViewState extends State<Transaction_PageView>
                                       itemBuilder: (context, index) =>
                                           GestureDetector(
                                         onTap: () {
+
                                           _category =
                                               allCategoryImages[index]['name'];
                                           log("$_category");
@@ -437,7 +437,6 @@ class _Transaction_PageViewState extends State<Transaction_PageView>
 
                               _transactionController.addTransaction(
                                 transactionModal: TransactionModal(
-                                  _id as int,
                                   _title!,
                                   _type!,
                                   _category!,

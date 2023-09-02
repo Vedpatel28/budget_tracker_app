@@ -10,7 +10,6 @@ class TransactionModal {
   late String time;
 
   TransactionModal(
-    this.id,
     this.remark,
     this.type,
     this.category,
@@ -19,15 +18,12 @@ class TransactionModal {
     this.time,
   );
 
-
-
   TransactionModal.init() {
     log("Empty transaction initialized...");
   }
 
   factory TransactionModal.fromMap({required Map data}) {
     return TransactionModal(
-      data["Id"],
       data["Remark"],
       data["Type"],
       data["Category"],

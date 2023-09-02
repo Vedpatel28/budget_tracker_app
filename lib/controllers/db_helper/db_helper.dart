@@ -15,7 +15,7 @@ class dbHelper {
 
   late Database database;
 
-  String balanceTable = "BalanceTable";
+  String balanceTable = "balancet able";
   String transactionTable = "TransactionTable";
   String categoryTable = "CategoryTable";
   String BalanceTable = "BalanceTable";
@@ -40,7 +40,7 @@ class dbHelper {
 
   initDB() async {
     String dbPath = await getDatabasesPath();
-    String dbName = "BTT6.db";
+    String dbName = "BTT7.db";
 
     String path = join(dbPath, dbName);
 
