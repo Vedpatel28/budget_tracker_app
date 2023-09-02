@@ -5,11 +5,6 @@ class searchController extends GetxController {
   RxList Search = [].obs;
 
   isSearch({required String search}) async {
-
-
-
     Search(await dbHelper.dbhelper.SearchTransaction(remarks: search));
-
-
   }
 }

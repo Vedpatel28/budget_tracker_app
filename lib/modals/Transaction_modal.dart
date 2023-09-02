@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 class TransactionModal {
+  late int id;
   late String remark;
   late String type;
   late String category;
@@ -9,6 +10,7 @@ class TransactionModal {
   late String time;
 
   TransactionModal(
+    this.id,
     this.remark,
     this.type,
     this.category,
@@ -25,6 +27,7 @@ class TransactionModal {
 
   factory TransactionModal.fromMap({required Map data}) {
     return TransactionModal(
+      data["Id"],
       data["Remark"],
       data["Type"],
       data["Category"],

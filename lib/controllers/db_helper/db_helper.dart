@@ -179,13 +179,24 @@ class dbHelper {
     return allSearch;
   }
 
-  //
-  // UpdateTransaction({required int id, required String remark, required}) {
-  //   String query = "UPDATE $transactionTable WHERE $trId = $id , $trRem = ? , $trAmo = ? , $trType = ?";
-  //   List Args = [];
-  //
-  //   database.rawUpdate(query, Args);
-  // }
+  UpdateTransaction({
+    required int id,
+    required String remark,
+    required int amount,
+    required type,
+  }) async {
+    String query =
+        "UPDATE $transactionTable SET $trRem = ? , $trAmo = ? , $trType = ? WHERE $trId = $id ,";
+    List Args = [
+      remark,
+      amount,
+      type,
+    ];
+    int updateData = await database.rawUpdate(query, Args);
+
+    return updateData;
+
+  }
 
   BalanceInsert() async {
     String query = "INSERT INTO $BalanceTable($blId,$blAmo) VALUES( 101 , 0 )";

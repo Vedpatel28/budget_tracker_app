@@ -37,10 +37,11 @@ class _Transaction_PageViewState extends State<Transaction_PageView>
     CategoryController(),
   );
 
+  String? _id;
   String? _title;
   String? _amount;
-  String? _category;
   String? _type;
+  String? _category;
   String? _date;
   String? _time;
 
@@ -436,6 +437,7 @@ class _Transaction_PageViewState extends State<Transaction_PageView>
 
                               _transactionController.addTransaction(
                                 transactionModal: TransactionModal(
+                                  _id as int,
                                   _title!,
                                   _type!,
                                   _category!,
